@@ -1,6 +1,5 @@
-import axios from "axios";
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [show, setShow] = useState(true);
@@ -8,13 +7,24 @@ function App() {
 
   useEffect(() => {
     let getData = async () => {
-      let response = await axios.get("https://dummyjson.com/posts");
-      setPosts(response.data.posts);
+      let response = await fetch("https://dummyjson.com/posts");
+      let data = await response.json();
+      setPosts(data.posts);
     };
 
     getData();
   }, []);
-  return <></>;
+  return (
+    <>
+      <ul>
+        {posts.map((post) => (
+          <li>
+            <h3>{post.title}</h3>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
 }
 
 export default App;
